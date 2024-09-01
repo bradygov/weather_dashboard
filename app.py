@@ -1,38 +1,36 @@
-from flask import Flask, jsonify, request, render_template
+from flask import Flask, render_template, request
 import requests
-import os
 
 app = Flask(__name__)
 
-# Replace with your actual OpenWeatherMap API key
-API_KEY = '32ef4f515d1b4385a41bc26b124fa6db'  # Sign up at https://openweathermap.org/ to get an API key
-
 @app.route('/')
-def home():
+def index():
     return render_template('index.html')
 
-@app.route('/weather', methods=['GET'])
-def get_weather():
+@app.route('/weather')
+def weather():
     city = request.args.get('city')
-    if not city:
-        return jsonify({"error": "City is required"}), 400
+    weather_data = fetch_weather_data(city)
+    return weather_data
 
-    # Call the OpenWeatherMap API
-    url = f"https://api.openweathermap.org/data/2.5/weather?q={city}&APPID={API_KEY}&units=metric"
+def fetch_weather_data(city):
+    # Replace with your actual weather API call
+    api_key = "YOUR_WEATHER_API_KEY"  # Replace with your actual weather API key
+    url = f"http://api.openweathermap.org/data/2.5/weather?q={city}&appid={api_key}&units=metric"
+    
     response = requests.get(url)
-
-    if response.status_code != 200:
-        return jsonify({"error": "City not found"}), 404
-
-    data = response.json()
-    weather_info = {
-        "city": data["name"],
-        "temperature": data["main"]["temp"],
-        "description": data["weather"][0]["description"],
-        "humidity": data["main"]["humidity"],
-        "wind_speed": data["wind"]["speed"]
-    }
-    return jsonify(weather_info)
+    if response.status_code == 200:
+        data = response.json()
+        return {
+            "city": data["name"],
+            "weather": [{"main": data["weather"][0]["main"]}],
+            "temperature": data["main"]["temp"],
+            "description": data["weather"][0]["description"],
+            "humidity": data["main"]["humidity"],
+            "wind_speed": data["wind"]["speed"]
+        }
+    else:
+        return {"error": "City not found"}
 
 if __name__ == '__main__':
     app.run(debug=True)

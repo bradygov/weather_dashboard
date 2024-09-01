@@ -1,6 +1,9 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
+    background-image: url('https://example.com/background-image.jpg'); /* Replace with your background image URL */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
     margin: 0;
     padding: 20px;
 }
@@ -37,7 +40,7 @@ button:hover {
 #weatherResult {
     margin-top: 20px;
     padding: 15px;
-    background-color: white;
+    background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent background */
     border: 1px solid #ccc;
     border-radius: 4px;
 }
@@ -61,4 +64,18 @@ button:hover {
 
 .history-item:hover {
     background-color: #d6d8db;
+}
+
+.weather-icon {
+    width: 50px;
+    height: 50px;
+    margin-right: 10px;
+}
+
+button i {
+    margin-right: 5px;
+}
+
+.history-item i {
+    margin-right: 8px;
 }
