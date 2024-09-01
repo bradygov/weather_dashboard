@@ -25,19 +25,44 @@ function getWeatherData(city) {
     fetch(`/weather?city=${city}`)
         .then(response => {
             if (!response.ok) {
-                throw new Error('City not found');
+                return response.json().then(data => {
+                    throw new Error(data.error);
+                });
             }
             return response.json();
         })
         .then(data => {
+            // Display current weather
             weatherResult.innerHTML = `
                 <h2>Weather in ${data.city}</h2>
-                <img src="https://example.com/weather-icon.png" alt="Weather Icon" class="weather-icon"> <!-- Replace with your weather icon URL -->
-                <p>Temperature: ${Math.round(data.temperature)} °C</p> <!-- Rounded temperature -->
+                <p>Temperature: ${data.temperature} °C</p>
                 <p>Description: ${data.description}</p>
                 <p>Humidity: ${data.humidity}%</p>
-                <p>Wind Speed: ${data.wind_speed} m/s</p>
+                <p>Wind Speed: ${data.wind_speed} km/h</p>
             `;
+
+            // Display hourly forecast
+            const hourlyForecast = data.hourly_data; // Assuming you have this in your response
+            const hourlyHtml = document.createElement('div');
+            hourlyHtml.innerHTML = '<h3>Hourly Forecast</h3>';
+            hourlyForecast.forEach(hour => {
+                hourlyHtml.innerHTML += `
+                    <p>${hour.time}: ${hour.condition.text}, ${hour.temp_c} °C</p>
+                `;
+            });
+            weatherResult.appendChild(hourlyHtml);
+
+            // Display weekly forecast
+            const weeklyForecast = data.weekly_forecast; // Assuming you have this in your response
+            const weeklyHtml = document.createElement('div');
+            weeklyHtml.innerHTML = '<h3>Weekly Forecast</h3>';
+            weeklyForecast.forEach(day => {
+                weeklyHtml.innerHTML += `
+                    <p>${day.date}: ${day.day.condition.text}, Max: ${day.day.maxtemp_c} °C, Min: ${day.day.mintemp_c} °C</p>
+                `;
+            });
+            weatherResult.appendChild(weeklyHtml);
+
             displaySearchHistory(); // Call to display the search history
         })
         .catch(error => {
