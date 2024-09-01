@@ -4,13 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Weather Dashboard</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
     <h1>Weather Dashboard</h1>
-    <input type="text" id="city" placeholder="Enter city name">
+
+    <label for="city">Enter a city:</label>
+    <input type="text" id="city" name="city">
     <button id="getWeather">Get Weather</button>
-    <div id="weatherResult"></div>
+
+    <div id="weatherResult" style="display: none;">
+        <!-- Weather data will be displayed here -->
+    </div>
+
+    <div id="searchHistory">
+        <h3>Search History</h3>
+        <!-- Search history will be populated here -->
+    </div>
 
     <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
