@@ -15,7 +15,7 @@ def weather():
 
 def fetch_weather_data(city):
     # Replace with your actual weather API call
-    api_key = "YOUR_WEATHER_API_KEY"  # Replace with your actual weather API key
+    api_key = "32ef4f515d1b4385a41bc26b124fa6db"  # Replace with your actual weather API key
     url = f"http://api.openweathermap.org/data/2.5/weather?q={city}&appid={api_key}&units=metric"
     
     response = requests.get(url)

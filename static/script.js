@@ -33,7 +33,7 @@ function getWeatherData(city) {
             weatherResult.innerHTML = `
                 <h2>Weather in ${data.city}</h2>
                 <img src="https://example.com/weather-icon.png" alt="Weather Icon" class="weather-icon"> <!-- Replace with your weather icon URL -->
-                <p>Temperature: ${data.temperature} °C</p>
+                <p>Temperature: ${Math.round(data.temperature)} °C</p> <!-- Rounded temperature -->
                 <p>Description: ${data.description}</p>
                 <p>Humidity: ${data.humidity}%</p>
                 <p>Wind Speed: ${data.wind_speed} m/s</p>
